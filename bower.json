@@ -1,0 +1,23 @@
+{
+  "name": "starter-fw",
+  "description": "Starter framework for future jobs.",
+  "main": "index.js",
+  "authors": [
+    "Marcus Feital"
+  ],
+  "license": "MIT",
+  "moduleType": [],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "bootstrap-material-design": "^0.5.7"
+  }
+}

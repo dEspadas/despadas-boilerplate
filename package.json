@@ -1,0 +1,18 @@
+{
+  "name": "starter-fw",
+  "version": "0.1.0",
+  "description": "Starter framework for future jobs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Marcus Feital",
+  "license": "MIT",
+  "devDependencies": {
+    "bower": "^1.7.7",
+    "gulp": "^3.9.0"
+  },
+  "dependencies": {
+    "express": "^4.13.4"
+  }
+}
