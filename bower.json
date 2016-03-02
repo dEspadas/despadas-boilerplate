@@ -1,5 +1,5 @@
 {
-  "name": "starter-fw",
+  "name": "despadas-boilerplate",
   "description": "Starter framework for future jobs.",
   "main": "index.js",
   "authors": [
@@ -19,5 +19,19 @@
   "dependencies": {
     "bootstrap": "^3.3.6",
     "bootstrap-material-design": "^0.5.7"
-  }
+  },
+  "overrides":{
+    "bootstrap" : {
+        "main": [
+           "dist/css/bootstrap.css",
+           "dist/css/bootstrap-theme.css",
+           "dist/js/bootstrap.js"
+         ]
+    },
+    "bootstrap-sass" : {
+      "main": [
+        "assets/stylesheets/_bootstrap.scss"
+      ]
+    }
+ }
 }
