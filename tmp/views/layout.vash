@@ -1,30 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- build:css css/libs.css-->
-  <!-- bower:css -->
-  <link rel="stylesheet" href="http://localhost:3000/css/bootstrap.css"/>
-  <link rel="stylesheet" href="http://localhost:3000/css/bootstrap-theme.css"/>
-  <link rel="stylesheet" href="http://localhost:3000/css/bootstrap-material-design.css"/>
-  <link rel="stylesheet" href="http://localhost:3000/css/ripples.css"/>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../favicon.ico">
+    <!-- build:css css/libs.css-->
+    <!-- bower:css -->
+    <link rel="stylesheet" href="http://localhost:3000/css/bootstrap.css"/>
+    <link rel="stylesheet" href="http://localhost:3000/css/bootstrap-theme.css"/>
+    <!-- endbower -->
+    <!-- endbuild -->
+    <title>@model.title</title>
+  </head>
+  <body>
+
+  @html.block('content')
+
+  <!-- build:js js/libs.js -->
+  <!-- bower:js -->
+  <script src="http://localhost:3000/libs/jquery.js"></script>
+  <script src="http://localhost:3000/libs/bootstrap.js"></script>
   <!-- endbower -->
   <!-- endbuild -->
-  <title>@model.title</title>
-</head>
-<body>
-
-@html.block('content')
-
-<!-- build:js js/libs.js -->
-<!-- bower:js -->
-<script src="http://localhost:3000/libs/jquery.js"></script>
-<script src="http://localhost:3000/libs/bootstrap.js"></script>
-<script src="http://localhost:3000/libs/material.js"></script>
-<script src="http://localhost:3000/libs/ripples.js"></script>
-<!-- endbower -->
-<!-- endbuild -->
-</body>
+  </body>
 </html>

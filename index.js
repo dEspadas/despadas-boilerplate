@@ -15,14 +15,8 @@ app.get('/', function (req, res) {
     title: 'dEspadas Boilerplate'
   })
 })
-app.get('/templates/bootstrap/theme', function (req, res) {
-  res.render('templates/bootstrap/theme/index', {
-    channel: 'Express',
-    title: 'dEspadas Boilerplate - bootstrap templates'
-  })
-})
-app.get('/templates/material', function (req, res) {
-  res.render('templates/material/index', {
+app.get(/(templates)\/(bootstrap|material)\/(.+)/, function (req, res) {
+  res.render('templates/' + req.params[1] + '/' + req.params[2] + '/index', {
     channel: 'Express',
     title: 'dEspadas Boilerplate - bootstrap templates'
   })

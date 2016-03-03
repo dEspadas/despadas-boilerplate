@@ -1,0 +1,15 @@
+{
+  "name": "despadas-boilerplate",
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "dist/css/bootstrap.css",
+        "dist/css/bootstrap-theme.css",
+        "dist/js/bootstrap.js"
+      ]
+    }
+  }
+}

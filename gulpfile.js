@@ -1,20 +1,23 @@
+var projectConfig = require('./project.config')
+var config = require('./gulpfile.config')
+
 var gulp = require('gulp')
 var wiredep = require('wiredep')
 var merge = require('merge-stream')
-
-var config = {
-  dev: {
-    host: 'http://localhost:3000/'
-  }
-}
+var del = require('del')
+var filter = require('gulp-filter')
 
 // CSS and JS bower file injection to temp dir
 // http://lab.brightnorth.co.uk/2014/08/13/automating-linkage-how-i-learned-to-stop-worrying-and-love-the-build/
-gulp.task('index-build', ['libs-build', 'bootstrap-font', 'bootstrap-examples'], function () {
+gulp.task('views-build:dev', ['libs-build', 'bootstrap-font', 'build-templates:dev'], function () {
   console.log('Injecting index.html with the bower files...')
 
-  return gulp.src('src/views/layout.vash')
+  var copyToDir = config.dev.dir
+  var filteredFile = filter(['src/views/layout.vash'], {restore: true})
+  return gulp.src('src/views/*.vash')
+              .pipe(filteredFile)
               .pipe(wiredep.stream({
+                bowerJson: require('./bower.' + projectConfig.StyleFramework.name + '.json'),
                 fileTypes: {
                   html: {
                     replace: {
@@ -28,28 +31,49 @@ gulp.task('index-build', ['libs-build', 'bootstrap-font', 'bootstrap-examples'],
                   }
                 }
               }))
-              .pipe(gulp.dest('./tmp/views/'))
+              .pipe(filteredFile.restore)
+              .pipe(gulp.dest(copyToDir + '/views/'))
 })
 
 gulp.task('libs-build', function () {
-  console.log('Copying bower files to tmp directory...')
+  console.log('Copying bower files to directory...')
 
-  var vendorScripts = gulp.src(wiredep().js).pipe(gulp.dest('./tmp/libs'))
-  var vendorCss = gulp.src(wiredep().css).pipe(gulp.dest('./tmp/css'))
+  var copyToDir = config.dev.dir
+
+  var vendorScripts = gulp.src(wiredep({bowerJson: require('./bower.' + projectConfig.StyleFramework.name + '.json')}).js).pipe(gulp.dest(copyToDir + '/libs'))
+  var vendorCss = gulp.src(wiredep({bowerJson: require('./bower.' + projectConfig.StyleFramework.name + '.json')}).css).pipe(gulp.dest(copyToDir + '/css'))
 
   return merge(vendorScripts, vendorCss)
 })
 
 gulp.task('bootstrap-font', function () {
-  console.log('Copying bootstrap font files to tmp directory...')
+  var copyToDir = config.dev.dir
 
-  return gulp.src('./bower_components/bootstrap/dist/fonts/*.*', { base: './bower_components/bootstrap/dist/' })
-             .pipe(gulp.dest('./tmp/'))
+  if (projectConfig.StyleFramework.name === 'bootstrap') {
+    console.log('Copying bootstrap font files to tmp directory...')
+
+    return gulp.src('./bower_components/bootstrap/dist/fonts/*.*', { base: './bower_components/bootstrap/dist/' })
+               .pipe(gulp.dest(copyToDir))
+  }
 })
 
-gulp.task('bootstrap-examples', function () {
-  console.log('Copying bootstrap example files to tmp directory...')
+gulp.task('build-templates:dev', function () {
+  if (projectConfig.StyleFramework.useTemplate) {
+    console.log('Building ' + projectConfig.StyleFramework.name + ' example files to tmp directory...')
+    if (projectConfig.StyleFramework.name === 'bootstrap') {
+      return gulp.src('./src/views/templates/bootstrap/**/*.vash', { base: './src/' })
+                 .pipe(gulp.dest(config.dev.dir))
+    } else if (projectConfig.StyleFramework.name === 'material') {
+      return gulp.src('./src/views/templates/material/**/*.vash', { base: './src/' })
+                 .pipe(gulp.dest(config.dev.dir))
+    }
+  }
+})
 
-  return gulp.src(['./src/views/templates/**/*.vash', './src/views/*.vash', '!./src/views/layout.vash'], { base: './src/' })
-             .pipe(gulp.dest('./tmp/'))
+gulp.task('clean:all', function (done) {
+  var copyToDir = config.dev.dir
+
+  console.log('Cleaning ' + copyToDir + ' directory...')
+
+  return del([copyToDir + '/**/*'], done)
 })

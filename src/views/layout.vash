@@ -1,22 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- build:css css/libs.css-->
-  <!-- bower:css -->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../favicon.ico">
+    <!-- build:css css/libs.css-->
+    <!-- bower:css -->
+    <!-- endbower -->
+    <!-- endbuild -->
+    <title>@model.title</title>
+  </head>
+  <body>
+
+  @html.block('content')
+
+  <!-- build:js js/libs.js -->
+  <!-- bower:js -->
   <!-- endbower -->
   <!-- endbuild -->
-  <title>@model.title</title>
-</head>
-<body>
-
-@html.block('content')
-
-<!-- build:js js/libs.js -->
-<!-- bower:js -->
-<!-- endbower -->
-<!-- endbuild -->
-</body>
+  </body>
 </html>

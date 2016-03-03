@@ -1,0 +1,6 @@
+{
+  "name": "despadas-boilerplate",
+  "dependencies": {
+    "material-design-lite": "^1.1.1"
+  }
+}
