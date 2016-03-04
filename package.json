@@ -14,12 +14,17 @@
     "gulp": "^3.9.0",
     "gulp-filter": "^4.0.0",
     "gulp-if": "^2.0.0",
+    "gulp-json-editor": "^2.2.1",
+    "gulp-minify-inline": "^0.2.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-usemin": "^0.3.21",
     "jasmine-core": "^2.4.1",
     "karma": "^0.13.21",
     "karma-chrome-launcher": "^0.2.2",
     "karma-jasmine": "^0.3.7",
     "merge-stream": "^1.0.0",
-    "wiredep": "^3.0.0"
+    "wiredep": "^3.0.0",
+    "yargs": "^4.2.0"
   },
   "dependencies": {
     "express": "^4.13.4",

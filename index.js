@@ -15,12 +15,13 @@ app.get('/', function (req, res) {
     title: 'dEspadas Boilerplate'
   })
 })
-app.get(/(templates)\/(bootstrap|material)\/(.+)/, function (req, res) {
-  res.render('templates/' + req.params[1] + '/' + req.params[2] + '/index', {
-    channel: 'Express',
-    title: 'dEspadas Boilerplate - bootstrap templates'
-  })
-})
+
+// app.get(/(templates)\/(bootstrap|material)\/(.+)/, function (req, res) {
+//   res.render('templates/' + req.params[1] + '/' + req.params[2] + '/index', {
+//     channel: 'Express',
+//     title: 'dEspadas Boilerplate - ' + req.params[1] + ' templates'
+//   })
+// })
 
 app.use(helmet())
 

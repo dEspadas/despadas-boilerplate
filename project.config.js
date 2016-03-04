@@ -1,9 +1,8 @@
 module.exports = {
   StyleFramework: {
-    name: 'bootstrap', // Allowed: none, bootstrap, material
-    useTemplate: true
+    name: 'bootstrap' // Allowed: bootstrap, material
   },
   FrontEndFramework: {
-    name: 'angular_1' // Allowed : angular_1, angular_2
+    name: 'angular' // Allowed : none, angular
   }
 }

@@ -18,7 +18,8 @@
   ],
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "material-design-lite": "^1.1.1"
+    "material-design-lite": "^1.1.1",
+    "angular": "^1.5.0"
   },
   "overrides": {
     "bootstrap": {
