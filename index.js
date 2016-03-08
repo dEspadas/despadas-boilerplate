@@ -8,14 +8,6 @@ var app = express()
 app.set('views', path.join(__dirname, 'tmp/views')) // critical to use path.join on windows
 app.set('view engine', 'vash')
 
-// Routes
-app.get('/', function (req, res) {
-  res.render('index', {
-    channel: 'Express',
-    title: 'dEspadas Boilerplate'
-  })
-})
-
 // app.get(/(templates)\/(bootstrap|material)\/(.+)/, function (req, res) {
 //   res.render('templates/' + req.params[1] + '/' + req.params[2] + '/index', {
 //     channel: 'Express',
@@ -31,6 +23,14 @@ app.use('/libs', express.static(path.join(__dirname, 'tmp/libs')))
 app.use('/fonts', express.static(path.join(__dirname, 'tmp/fonts')))
 
 // app.use(serveStatic('public'))
+
+// Routes
+app.get('/', function (req, res) {
+  res.render('index', {
+    channel: 'Express',
+    title: 'dEspadas Boilerplate'
+  })
+})
 
 app.listen(3000, function () {
   console.log('Started server in port 3000')
