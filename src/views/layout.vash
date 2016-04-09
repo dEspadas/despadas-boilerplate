@@ -29,18 +29,19 @@
     <!-- SEO: If your mobile URL is different from the desktop URL, add a canonical link to the desktop page https://developers.google.com/webmasters/smartphone-sites/feature-phones -->
     <!--  <link rel="canonical" href="http://www.example.com/">  -->
 
-    <!-- build:css css/libs.css-->
-    <!-- bower:css -->
+    <!-- build:css css/main.css-->
+    <!-- inject:css -->
     <!-- endbower -->
     <!-- endbuild -->
+
     <title>@model.title</title>
   </head>
   <body>
 
   @html.block('content')
 
-  <!-- build:js js/libs.js -->
-  <!-- bower:js -->
+  <!-- build:js js/main.js -->
+  <!-- inject:js -->
   <!-- endbower -->
   <!-- endbuild -->
   </body>
