@@ -154,8 +154,8 @@ gulp.task('json-construct', ['create-folder'], function () {
                }
                if (responses.JSframework === 'React') {
                  json.dependencies['babel-preset-es2015'] = '^6.6.0';
-                 json.dependencies['babel-preset-react'] = '^7.2.0';
-                 json.dependencies['babelify'] = '^6.5.0';
+                 json.dependencies['babel-preset-react'] = '^6.5.0';
+                 json.dependencies['babelify'] = '^7.2.0';
                  json.dependencies['react'] = '^15.0.0';
                  json.dependencies['react-dom'] = '^15.0.0';
                }
