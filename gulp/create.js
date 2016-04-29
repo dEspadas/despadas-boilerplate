@@ -45,8 +45,8 @@ gulp.task('copy-views', ['copy-gulp'], function () {
 gulp.task('copy-gulp', ['copy-frameworks'], function () {
   console.log('Copying gulp files in gulp directory...')
 
-  return gulp.src(['./gulp/*.js', '!./gulp/create.js'], { base: './' })
-    .pipe(gulp.dest(argv.dir))
+  return gulp.src('./gulp/export/*.js', { base: './gulp/export/' })
+    .pipe(gulp.dest(argv.dir + '/gulp'))
 })
 
 gulp.task('copy-frameworks', ['json-construct'], function () {

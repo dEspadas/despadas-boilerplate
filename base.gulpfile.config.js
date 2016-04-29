@@ -1,6 +1,5 @@
 module.exports = {
 // Project Directories
-
   src: {
     dir: 'src'
   },

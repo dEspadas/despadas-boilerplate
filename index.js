@@ -9,11 +9,11 @@ app.set('view engine', 'vash')
 
 app.use(helmet())
 
+app.use('/app', express.static(path.join(__dirname, 'tmp/app')))
 app.use('/css', express.static(path.join(__dirname, 'tmp/css')))
 app.use('/js', express.static(path.join(__dirname, 'tmp/js')))
-app.use('/libs', express.static(path.join(__dirname, 'tmp/libs')))
 app.use('/fonts', express.static(path.join(__dirname, 'tmp/fonts')))
-app.use('/fonts', express.static(path.join(__dirname, 'tmp/images')))
+app.use('/images', express.static(path.join(__dirname, 'tmp/images')))
 
 // Routes
 app.get('/', function (req, res) {
