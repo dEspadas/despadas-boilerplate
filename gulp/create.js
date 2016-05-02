@@ -145,6 +145,7 @@ gulp.task('json-construct', ['create-folder'], function () {
              .pipe(jeditor(function (json) {
                if (responses.CSSframework === 'Bootstrap') {
                  json.dependencies.bootstrap = '^3.3.6';
+                 json.dependencies.jquery = '^2.2.3';
                }
                if (responses.CSSframework === 'Material Design Lite') {
                  json.dependencies['material-design-lite'] = '^1.1.3';
