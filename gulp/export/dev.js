@@ -50,13 +50,12 @@ gulp.task('inject-libs:dev', ['views-copy:dev'], function () {
 
   return gulp.src(config.dev.dir + '/views/layout.vash')
              .pipe(inject(gulp.src(config.dev.dir + '/js/libs/angular.js', { read: false }), {name: 'libs'}))
-             .pipe(inject(gulp.src(config.dev.dir + '/js/libs/react.js', { read: false }), {name: 'libs'}))
-             .pipe(inject(gulp.src(config.dev.dir + '/js/libs/react-dom.js', { read: false }), {name: 'libs'}))
+             .pipe(inject(gulp.src([config.dev.dir + '/js/libs/react.js', config.dev.dir + '/js/libs/react-dom.js'], { read: false }), {name: 'libs'}))
              .pipe(inject(gulp.src(config.dev.dir + '/js/libs/jquery.js', { read: false }), {name: 'jquery'}))
              .pipe(inject(gulp.src(config.dev.dir + '/js/libs/bootstrap.js', { read: false }), {name: 'framework'}))
              .pipe(inject(gulp.src(config.dev.dir + '/js/libs/material.js', { read: false }), {name: 'framework'}))
-             .pipe(inject(gulp.src(config.dev.dir + '/js/libs/bootstrap.css', { read: false }), {name: 'framework'}))
-             .pipe(inject(gulp.src(config.dev.dir + '/js/libs/material.css', { read: false }), {name: 'framework'}))
+             .pipe(inject(gulp.src(config.dev.dir + '/css/libs/bootstrap.css', { read: false }), {name: 'framework'}))
+             .pipe(inject(gulp.src(config.dev.dir + '/css/libs/material.css', { read: false }), {name: 'framework'}))
              .pipe(gulp.dest(config.dev.dir + '/views'))
 })
 
@@ -84,8 +83,8 @@ gulp.task('copy-fonts:dev', function () {
 
 // Scss and css commands
 
-gulp.task('scss-build:dev', ['sprite-build:dev'], function () {
-  console.log('Building scss files to ' + config.dev.dir + ' directory...')
+gulp.task('scss-build:dev', ['sprite-build:dev', 'copy-css:dev'], function () {
+  console.log('Building scss and css files to ' + config.dev.dir + ' directory...')
   return gulp.src(config.src.dir + '/css/styles/index.scss', { base: config.src.dir + '/css/styles' })
     .pipe(sourcemaps.init())
     .pipe(sass().on('error', sass.logError))
@@ -93,6 +92,12 @@ gulp.task('scss-build:dev', ['sprite-build:dev'], function () {
     .pipe(sourcemaps.write('/'))
     .pipe(gulp.dest(config.dev.dir + '/css'))
     .pipe(reload({stream: true}))
+})
+
+gulp.task('copy-css:dev', function () {
+  console.log('Copying css libs files to ' + config.dev.dir + ' directory...')
+  return gulp.src(config.src.dir + '/css/libs/*.css', { base: config.src.dir + '/css' })
+             .pipe(gulp.dest(config.dev.dir + '/css'))
 })
 
 // Images commands
