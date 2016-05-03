@@ -77,8 +77,8 @@ gulp.task('js-copy:dev', function () {
 
 gulp.task('copy-fonts:dev', function () {
   console.log('Copying fonts font files to ' + config.dev.dir + ' directory...')
-  return gulp.src(config.src.dir + '/fonts/*.*', { base: config.src.dir + '/fonts' })
-             .pipe(gulp.dest(config.dev.dir))
+  return gulp.src(config.src.dir + '/fonts/*.*')
+             .pipe(gulp.dest(config.dev.dir + '/fonts'))
 })
 
 // Scss and css commands

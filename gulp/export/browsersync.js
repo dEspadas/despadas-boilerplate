@@ -7,17 +7,12 @@ var browserSync = require('browser-sync')
 var nodemon = require('gulp-nodemon')
 var reload = browserSync.reload
 
-gulp.task('server:dev', ['nodemon', 'watch'], function () {
+gulp.task('server:start', ['nodemon', 'watch'], function () {
   browserSync.init(null, {
     proxy: 'http://localhost:3000',
     notify: true,
     port: 3001
   })
-})
-
-gulp.task('watch', function () {
-  gulp.watch([config.src.dir + '/css/styles/*.scss'], ['scss-build:dev'])
-  gulp.watch([config.src.dir + '/js/custom/*.js', config.src.dir + '/views/*.*'], ['inject-layout:dev'])
 })
 
 gulp.task('nodemon', function (cb) {
@@ -46,4 +41,9 @@ gulp.task('nodemon', function (cb) {
       reload({ stream: false })
     }, 1000)
   })
+})
+
+gulp.task('watch', function () {
+  gulp.watch([config.src.dir + '/css/styles/*.scss'], ['scss-build:dev'])
+  gulp.watch([config.src.dir + '/js/custom/*.js', config.src.dir + '/views/*.*'], ['inject-layout:dev'])
 })
