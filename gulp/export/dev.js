@@ -104,7 +104,7 @@ gulp.task('copy-css:dev', function () {
 
 gulp.task('svg-copy:dev', function () {
   console.log('Copying .svg to ' + config.dev.dir + ' directory...')
-  return gulp.src(config.src.dir + '/images/svg/**/*.svg', { base: config.src.dir + '/images/svg/' })
+  return gulp.src(config.src.dir + '/images/svg/**/*.svg', { base: config.src.dir + '/images/' })
              .pipe(gulp.dest(config.dev.dir + '/images'))
 })
 
@@ -148,9 +148,11 @@ gulp.task('scss-watch:dev', ['sprite-build:dev'], function () {
   return gulp.watch([config.src.dir + '/css/styles/*.scss'], ['scss-build:dev'])
 })
 
-gulp.task('js-watch:dev', function () {
-  console.log('Building scss files to directory...')
-  return gulp.watch(config.src.dir + '/js/custom/*.js', ['inject-layout:dev'])
+gulp.task('all-watch:dev', function () {
+  console.log('Watching all...')
+  gulp.watch(config.src.dir + '/js/custom/*.js', ['inject-layout:dev'])
+  gulp.watch([config.src.dir + '/css/styles/*.scss'], ['scss-build:dev'])
+  gulp.watch([config.src.dir + '/images/**/*.{png,jpg,gif,svg}'], ['svg-copy:dev', 'images-copy:dev', 'scss-build:dev'])
 })
 
 // Clean commands
