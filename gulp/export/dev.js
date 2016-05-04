@@ -120,13 +120,13 @@ gulp.task('images-copy:dev', function () {
 gulp.task('sprite-build:dev', function (done) {
   console.log('Building sprites to ' + config.dev.dir + ' directory...')
 
-  if (glob.sync(config.src.dir + '/images/spritesfolder/**/*.{png,jpg}').length === 0) {
+  if (glob.sync(config.src.dir + '/images/sprites/**/*.{png,jpg}').length === 0) {
     done()
     return
   }
 
   return sprity.src({
-    src: config.src.dir + '/images/spritesfolder/**/*.{png,jpg}',
+    src: config.src.dir + '/images/sprites/**/*.{png,jpg}',
     style: './sprite.scss',
     // processor: 'sass',
     'dimension': [{

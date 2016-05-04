@@ -25,25 +25,32 @@ gulp.task('create', ['copy-project-files'], function () {
   console.log('Building base project...')
 })
 
-gulp.task('copy-project-files', ['copy-views'], function () {
+gulp.task('copy-project-files', ['copy-test'], function () {
   console.log('Copying default projetc files...')
   var filtered = filter('base.gulpfile.config.js', {restore: true})
-  return gulp.src(['.eslintrc.json', 'app.js', 'index.js', 'proxy.js', 'gulpfile.js', 'base.gulpfile.config.js'])
+  return gulp.src(['.eslintrc.json', 'app.js', 'index.js', 'proxy.js', 'gulpfile.js', 'base.gulpfile.config.js', 'karma.dev.config.js', 'karma.dist.config.js'])
              .pipe(filtered)
              .pipe(rename('gulpfile.config.js'))
              .pipe(filtered.restore)
              .pipe(gulp.dest(argv.dir))
 })
 
+gulp.task('copy-test', ['copy-views'], function () {
+  console.log('Copying test files into test directory...')
+
+  return gulp.src('./src/test/**/*.spec.js', { base: './src/' })
+    .pipe(gulp.dest(srcDir + '/../'))
+})
+
 gulp.task('copy-views', ['copy-gulp'], function () {
-  console.log('Copying views files in views directory...')
+  console.log('Copying views files into views directory...')
 
   return gulp.src('./src/views/*.vash', { base: './src/' })
     .pipe(gulp.dest(srcDir))
 })
 
 gulp.task('copy-gulp', ['copy-frameworks'], function () {
-  console.log('Copying gulp files in gulp directory...')
+  console.log('Copying gulp files into gulp directory...')
 
   return gulp.src('./gulp/export/*.js', { base: './gulp/export/' })
     .pipe(gulp.dest(argv.dir + '/gulp'))
@@ -169,7 +176,7 @@ gulp.task('json-construct', ['create-folder'], function () {
 gulp.task('create-folder', function () {
   console.log('Creating folder structure...')
   if (argv.dir) {
-    return gulp.src('./src/**/*.*', {base: './src/'})
+    return gulp.src(['./src/**/*.*', '!./src/test/**/*.*'], {base: './src/'})
               .pipe(folder({
                 root: srcDir,
                 folders: {
@@ -180,12 +187,18 @@ gulp.task('create-folder', function () {
                   },
                   fonts: './fonts',
                   images: {
-                    spritesfolder: './images/spritesfolder',
+                    sprites: './images/sprites',
                     svg: './images/svg'
                   },
                   js: {
                     custom: './js/custom',
                     libs: './js/libs'
+                  },
+                  test: {
+                    app: '../test/app',
+                    js: {
+                      custom: '../test/js/custom'
+                    }
                   },
                   views: './views'
                 }
