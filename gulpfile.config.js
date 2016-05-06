@@ -24,7 +24,8 @@ module.exports = {
   // Angular Js 1.5
 
   angular: {
-    js: './node_modules/angular/angular.js'
+    js: ['./node_modules/angular/angular.js',
+         './node_modules/angular-route/angular-route.js']
   },
 
   // React

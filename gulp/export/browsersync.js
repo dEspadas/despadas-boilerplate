@@ -45,7 +45,7 @@ gulp.task('nodemon', function (cb) {
 
 gulp.task('watch', function () {
   console.log('Watching all...')
-  gulp.watch([config.src.dir + '/js/custom/*.js', config.src.dir + '/views/*.*'], ['inject-layout:dev'])
+  gulp.watch([config.src.dir + '/js/custom/*.js', config.src.dir + '/app/**/*.js', config.src.dir + '/views/*.*'], ['inject-layout:dev'])
   gulp.watch([config.src.dir + '/css/styles/*.scss'], ['scss-build:dev'])
   gulp.watch([config.src.dir + '/images/**/*.{png,jpg,gif,svg}'], ['svg-copy:dev', 'images-copy:dev', 'scss-build:dev'])
 })

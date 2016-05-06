@@ -9,6 +9,7 @@ var rename = require('gulp-rename')
 var prompt = require('gulp-prompt')
 var jeditor = require('gulp-json-editor')
 var merge = require('merge-stream')
+var injectString = require('gulp-inject-string')
 
 var responses = {
   name: '',
@@ -28,24 +29,64 @@ gulp.task('create', ['copy-project-files'], function () {
 gulp.task('copy-project-files', ['copy-test'], function () {
   console.log('Copying default projetc files...')
   var filtered = filter('base.gulpfile.config.js', {restore: true})
-  return gulp.src(['.eslintrc.json', 'app.js', 'index.js', 'proxy.js', 'gulpfile.js', 'base.gulpfile.config.js', 'karma.dev.config.js', 'karma.dist.config.js'])
+  return gulp.src(['.eslintrc.json', 'index.js', 'proxy.js', 'gulpfile.js', 'base.gulpfile.config.js', 'karma.dev.config.js', 'karma.dist.config.js'])
              .pipe(filtered)
              .pipe(rename('gulpfile.config.js'))
              .pipe(filtered.restore)
              .pipe(gulp.dest(argv.dir))
 })
 
-gulp.task('copy-test', ['copy-views'], function () {
+gulp.task('copy-test', ['copy-app'], function () {
   console.log('Copying test files into test directory...')
 
-  return gulp.src('./src/test/**/*.spec.js', { base: './src/' })
+  return gulp.src(config.src.dir + '/test/**/*.spec.js', { base: config.src.dir + '/' })
     .pipe(gulp.dest(srcDir + '/../'))
+})
+
+gulp.task('copy-app', ['inject-framework'], function () {
+  console.log('Copying app files into views directory...')
+  var JSframework
+
+  if (responses.JSframework === 'AngularJs 1.5') {
+    JSframework = gulp.src(config.src.dir + '/app/angular/**/*.*', { base: config.src.dir + '/app/angular' })
+                      .pipe(gulp.dest(srcDir + '/app'))
+  }
+
+  return JSframework
+})
+
+gulp.task('inject-framework', ['copy-views'], function () {
+  console.log('Injecting and adjusting view file...')
+  var filteredVash = filter(srcDir + '/views/index.vash', {restore: true})
+  var filteredJs = filter(srcDir + '/../index.js', {restore: true})
+
+  if (responses.JSframework === 'None' || responses.JSframework === 'React') {
+    return gulp.src([srcDir + '/views/index.vash', srcDir + '/../index.js'])
+             .pipe(filteredVash)
+             .pipe(injectString.replace('injectStringAngularClass', ''))
+             .pipe(injectString.replace('<!-- injectString JSFramework -->', '@html.block(\'content\')'))
+             .pipe(filteredVash.restore)
+             .pipe(filteredJs)
+             .pipe(injectString.replace("res.render('index'", "res.render('main'"))
+             .pipe(filteredJs.restore)
+             .pipe(gulp.dest(srcDir + '/views'))
+  } else if (responses.JSframework === 'AngularJs 1.5') {
+    return gulp.src(srcDir + '/views/index.vash')
+             .pipe(injectString.replace('injectStringAngularClass', 'ng-app="despadasApp"'))
+             .pipe(injectString.replace('<!-- injectString JSFramework -->', '<div ng-view></div>'))
+             .pipe(gulp.dest(srcDir + '/views'))
+  }
 })
 
 gulp.task('copy-views', ['copy-gulp'], function () {
   console.log('Copying views files into views directory...')
+  var source = [config.src.dir + '/views/index.vash']
 
-  return gulp.src('./src/views/*.vash', { base: './src/' })
+  if (responses.JSframework === 'None' || responses.JSframework === 'React') {
+    source.push(config.src.dir + '/views/main.vash')
+  }
+
+  return gulp.src(source, { base: config.src.dir + '/' })
     .pipe(gulp.dest(srcDir))
 })
 
@@ -159,6 +200,7 @@ gulp.task('json-construct', ['create-folder'], function () {
                }
                if (responses.JSframework === 'AngularJs 1.5') {
                  json.dependencies.angular = '^1.5.5';
+                 json.dependencies['angular-route'] = '^1.5.5';
                }
                if (responses.JSframework === 'React') {
                  json.dependencies['babel-preset-es2015'] = '^6.6.0';
@@ -176,7 +218,7 @@ gulp.task('json-construct', ['create-folder'], function () {
 gulp.task('create-folder', function () {
   console.log('Creating folder structure...')
   if (argv.dir) {
-    return gulp.src(['./src/**/*.*', '!./src/test/**/*.*'], {base: './src/'})
+    return gulp.src([config.src.dir + '/**/*.*', '!' + config.src.dir + '/test/**/*.*', '!' + config.src.dir + '/app/angular/**/*.*'], {base: config.src.dir + '/'})
               .pipe(folder({
                 root: srcDir,
                 folders: {

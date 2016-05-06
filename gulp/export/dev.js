@@ -38,18 +38,17 @@ gulp.task('inject-layout:dev', ['inject-custom:dev'], function () {
 gulp.task('inject-custom:dev', ['inject-libs:dev'], function () {
   console.log('Injecting view with custom files...')
 
-  var sources = gulp.src([config.dev.dir + '/js/custom/*.js', config.dev.dir + '/css/*.css'], { read: false })
-
-  return gulp.src(config.dev.dir + '/views/layout.vash')
-             .pipe(inject(sources, {name: 'custom'}))
+  return gulp.src(config.dev.dir + '/views/index.vash')
+             .pipe(inject(gulp.src([config.dev.dir + '/js/custom/*.js', config.dev.dir + '/css/*.css'], { read: false }), {name: 'custom'}))
+             .pipe(inject(gulp.src(config.dev.dir + '/app/**/*.js', { read: false }), {name: 'app'}))
              .pipe(gulp.dest(config.dev.dir + '/views'))
 })
 
 gulp.task('inject-libs:dev', ['views-copy:dev'], function () {
   console.log('Injecting view with libs files...')
 
-  return gulp.src(config.dev.dir + '/views/layout.vash')
-             .pipe(inject(gulp.src(config.dev.dir + '/js/libs/angular.js', { read: false }), {name: 'libs'}))
+  return gulp.src(config.dev.dir + '/views/index.vash')
+             .pipe(inject(gulp.src([config.dev.dir + '/js/libs/angular.js', config.dev.dir + '/js/libs/angular-route.js'], { read: false }), {name: 'libs'}))
              .pipe(inject(gulp.src([config.dev.dir + '/js/libs/react.js', config.dev.dir + '/js/libs/react-dom.js'], { read: false }), {name: 'libs'}))
              .pipe(inject(gulp.src(config.dev.dir + '/js/libs/jquery.js', { read: false }), {name: 'jquery'}))
              .pipe(inject(gulp.src(config.dev.dir + '/js/libs/bootstrap.js', { read: false }), {name: 'framework'}))
@@ -59,13 +58,19 @@ gulp.task('inject-libs:dev', ['views-copy:dev'], function () {
              .pipe(gulp.dest(config.dev.dir + '/views'))
 })
 
-gulp.task('views-copy:dev', ['js-copy:dev'], function () {
+gulp.task('views-copy:dev', ['app-copy:dev'], function () {
   console.log('Copying views to ' + config.dev.dir + ' directory...')
   return gulp.src(config.src.dir + '/views/*.vash', { base: config.src.dir + '/views/' })
              .pipe(gulp.dest(config.dev.dir + '/views'))
 })
 
 // JS commands
+
+gulp.task('app-copy:dev', ['js-copy:dev'], function () {
+  console.log('Copying app .js to ' + config.dev.dir + ' directory...')
+  return gulp.src(config.src.dir + '/app/**/*.{js,html}', { base: config.src.dir + '/app/' })
+             .pipe(gulp.dest(config.dev.dir + '/app'))
+})
 
 gulp.task('js-copy:dev', function () {
   console.log('Copying .js to ' + config.dev.dir + ' directory...')
@@ -150,7 +155,7 @@ gulp.task('scss-watch:dev', ['sprite-build:dev'], function () {
 
 gulp.task('all-watch:dev', function () {
   console.log('Watching all...')
-  gulp.watch(config.src.dir + '/js/custom/*.js', ['inject-layout:dev'])
+  gulp.watch([config.src.dir + '/js/custom/*.js', config.src.dir + '/app/**/*.js', config.src.dir + '/views/*.*'], ['inject-layout:dev'])
   gulp.watch([config.src.dir + '/css/styles/*.scss'], ['scss-build:dev'])
   gulp.watch([config.src.dir + '/images/**/*.{png,jpg,gif,svg}'], ['svg-copy:dev', 'images-copy:dev', 'scss-build:dev'])
 })
