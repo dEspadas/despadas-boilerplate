@@ -29,7 +29,7 @@ gulp.task('create', ['copy-project-files'], function () {
 gulp.task('copy-project-files', ['copy-test'], function () {
   console.log('Copying default projetc files...')
   var filtered = filter('base.gulpfile.config.js', {restore: true})
-  return gulp.src(['.eslintrc.json', 'index.js', 'proxy.js', 'gulpfile.js', 'base.gulpfile.config.js', 'karma.dev.config.js', 'karma.dist.config.js'])
+  return gulp.src(['.eslintrc.json', 'proxy.js', 'gulpfile.js', 'base.gulpfile.config.js', 'karma.dev.config.js', 'karma.dist.config.js'])
              .pipe(filtered)
              .pipe(rename('gulpfile.config.js'))
              .pipe(filtered.restore)
@@ -57,18 +57,18 @@ gulp.task('copy-app', ['inject-framework'], function () {
 
 gulp.task('inject-framework', ['copy-views'], function () {
   console.log('Injecting and adjusting view file...')
-  var filteredVash = filter(srcDir + '/views/index.vash', {restore: true})
-  var filteredJs = filter(srcDir + '/../index.js', {restore: true})
+  var filteredVash = filter(srcDir + '/views/index.vash')
+  var filteredJs = filter('index.js', {restore: true})
 
   if (responses.JSframework === 'None' || responses.JSframework === 'React') {
-    return gulp.src([srcDir + '/views/index.vash', srcDir + '/../index.js'])
+    return gulp.src([srcDir + '/views/index.vash', 'index.js'])
+             .pipe(filteredJs)
+             .pipe(injectString.replace('index', 'main'))
+             .pipe(gulp.dest(argv.dir))
+             .pipe(filteredJs.restore)
              .pipe(filteredVash)
              .pipe(injectString.replace('injectStringAngularClass', ''))
              .pipe(injectString.replace('<!-- injectString JSFramework -->', '@html.block(\'content\')'))
-             .pipe(filteredVash.restore)
-             .pipe(filteredJs)
-             .pipe(injectString.replace("res.render('index'", "res.render('main'"))
-             .pipe(filteredJs.restore)
              .pipe(gulp.dest(srcDir + '/views'))
   } else if (responses.JSframework === 'AngularJs 1.5') {
     return gulp.src(srcDir + '/views/index.vash')

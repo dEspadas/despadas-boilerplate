@@ -1,7 +1,7 @@
 {
   "name": "despadas-boilerplate",
   "version": "0.8.0",
-  "description": "Starter framework for future jobs.",
+  "description": "Starter framework for projects.",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -49,6 +49,7 @@
     "helmet": "^1.1.0",
     "jquery": "^2.2.3",
     "material-design-lite": "^1.1.3",
+    "mongoose": "^4.4.17",
     "path": "^0.12.7",
     "react": "^15.0.0",
     "react-dom": "^15.0.0",
